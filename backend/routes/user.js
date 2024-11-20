@@ -1,11 +1,10 @@
 const express = require("express")
 const router = express.Router()
 const {SignupSchema,SigninSchema,updateBody} = require("../zodValidation") 
-const User = require("../db")
+const {User,Account} = require("../db")
 const jwt = require("jsonwebtoken")
 const {JWTSecret} = require("../config")
 const AuthMiddleware = require("../middleware")
-
 router.post("/Signup",async (req,res)=>{
     const userData = req.body
     const {success} = SignupSchema.safeParse(userData)
@@ -14,7 +13,7 @@ router.post("/Signup",async (req,res)=>{
         res.status(411).json({message:"Email already taken/invalid input"})
     }
 
-  const isExist = await User.findOne({
+    const isExist = await User.findOne({
         username:userData.username
     })
     
@@ -29,11 +28,22 @@ router.post("/Signup",async (req,res)=>{
         password:userData.password
     })
     const userId = newUser._id
+
+     // --------------------add-dumy-balance----------------------------------------------------
+
+     await Account.create({
+        userId,
+        balance:1+Math.random()*10000
+    })
+    //------------------------------------------------------------------------------
+    
     const token = jwt.sign({userId},JWTSecret)
     res.status(200).json({
         message:"user created successfully..!",
         token:token
     })
+
+   
 
     
 })
@@ -70,6 +80,41 @@ router.put("/",AuthMiddleware,async (req,res)=>{
     res.json({message:"updated successfully"})
 
 
+})
+
+router.get("/bulk",async(req,res)=>{
+  const filter =  req.query.params || "";  // if params abscent return all users
+const users = await User.find({  // here we can get users by searching there name 
+    $or:[{
+        firstname:{
+            "$regex":filter
+        },
+        lastname:{
+            "$regex":filter
+        }
+    }]
+  })
+
+  res.json({
+    users:users.map((user)=>({  //if use () no need to return here we did not return password
+        username:user.username,
+        firstname:user.firstname,
+        lastname:user.lastname,
+        _id:user._id
+
+    }))
+  })
+
+//   res.json({  this will also work 
+//     users:users.map((user)=>{
+//         return {
+//         username:user.username,
+//         firstname:user.firstname,
+//         lastname:user.lastname,
+//         _id:user._id
+ //        }
+//     })
+//   })
 })
 
 
