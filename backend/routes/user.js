@@ -3,14 +3,17 @@ const router = express.Router()
 const {SignupSchema,SigninSchema,updateBody} = require("../zodValidation") 
 const {User,Account} = require("../db")
 const jwt = require("jsonwebtoken")
-const {JWTSecret} = require("../config")
-const AuthMiddleware = require("../middleware")
+const {JWT_SECRET} = require("../config")
+const {AuthMiddleware} = require("../middleware")
+
 router.post("/Signup",async (req,res)=>{
     const userData = req.body
-    const {success} = SignupSchema.safeParse(userData)
-
-    if(!success){
-        res.status(411).json({message:"Email already taken/invalid input"})
+    console.log("userdata--",userData)
+    const parsed = SignupSchema.safeParse(userData)
+//  console.log("/signup endpoint----------")
+ console.log("success--",parsed.success)
+    if(!parsed.success){
+       return res.status(411).json({message:"Email already taken/invalid input",errors:parsed.error.errors})
     }
 
     const isExist = await User.findOne({
@@ -37,7 +40,7 @@ router.post("/Signup",async (req,res)=>{
     })
     //------------------------------------------------------------------------------
     
-    const token = jwt.sign({userId},JWTSecret)
+    const token = jwt.sign({userId},JWT_SECRET)
     res.status(200).json({
         message:"user created successfully..!",
         token:token
@@ -57,12 +60,12 @@ router.post("/Signin",async (req,res)=>{
    }
 
   const isUserExist = await User.findOne({
-    userData:userData.username,
+    username:userData.username,
     password:userData.password
    })
    if(isUserExist){
     const userId = isUserExist._id
-    const token = jwt.sign({userId},JWTSecret)
+    const token = jwt.sign({userId},JWT_SECRET)
     res.json({token:token})
     return
    }
@@ -70,16 +73,21 @@ router.post("/Signin",async (req,res)=>{
  
 })
 
-router.put("/",AuthMiddleware,async (req,res)=>{
+router.put("/update",AuthMiddleware,async (req,res)=>{
+    console.log("update-route-2------")
    const userData = req.body
-  const {success} = updateBody.safeParse(userData)
-  if(!success){
-    res.status(411).json({message: "Error while updating information"})
+  const parsed = updateBody.safeParse(userData)
+  if(!parsed.success){
+   return res.status(411).json({message: "Error while updating information",errors:parsed.error.errors})
   }
+  try{
+    console.log("update-route-2------",userData)
     await User.updateOne({_id:req.userId},userData)
     res.json({message:"updated successfully"})
-
-
+  }catch(err){
+    console.log("router.put()",err)
+    res.status(500).json({message:"something went wrong"})
+  }
 })
 
 router.get("/bulk",async(req,res)=>{
