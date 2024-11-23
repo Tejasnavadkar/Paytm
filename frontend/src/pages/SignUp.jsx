@@ -12,6 +12,7 @@ function SignUp(){
     const [lastname,setLastname]= useState("")
     const [username,setUsername]= useState("")
     const [password,setPassword]= useState("")
+    
   return<>
   <div className='bg-slate-300 h-screen  flex justify-center items-center'>
     
@@ -32,12 +33,17 @@ function SignUp(){
         setPassword(e.target.value)
     }} label={"Password"} placeholder={"password"}/>
     <Button label={"SignUp"} onClick={ async ()=>{
-        await axios.post("http://localhost:3000/api/v1/user/signup",{
+       const response = await axios.post("http://localhost:3000/api/v1/user/signup",{
             username,
             firstname,
             lastname,
             password
         })
+        console.log("response--",response)
+        if(response.data.token){
+            localStorage.setItem('token',response.data.token)
+            
+        }
     }}/>
     <BottomWarning label={"Already have an account?"} buttonText={"Signin"} to={"/signin"}/>
     </div>
