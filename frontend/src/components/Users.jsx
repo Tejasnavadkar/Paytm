@@ -15,9 +15,24 @@ function Users() {
         console.log("filterde value--",filter)
        setUsers(response.data.users)
     }
+    // function Debounce(callback,delay){  this works in js
+    //     let timeId
+    //    return function (){
+    //     clearTimeout(timeId)
+    //      timeId =  setTimeout(()=>{
+    //           callback()
+    //       },delay)
+    //    }
+    // }
+    // const betterFunction = Debounce(FetchData,2000)
 
     useEffect(()=>{
-       FetchData()
+        const timeId = setTimeout(()=>{
+            FetchData()
+        },2000)
+
+        return () => clearTimeout(timeId)
+        
     },[filter])
 
     return <>

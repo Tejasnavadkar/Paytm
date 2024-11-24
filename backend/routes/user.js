@@ -23,7 +23,7 @@ router.post("/Signup", async (req, res) => {
   if (isExist) {
     return res.status(411).json({ message: "Email already taken/invalid input" })
   }
-  try {
+  
     const newUser = await User.create({
       username: userData.username,
       firstname: userData.firstname,
@@ -31,18 +31,16 @@ router.post("/Signup", async (req, res) => {
       password: userData.password
     })
     const userId = newUser._id
-
+    console.log("userId--",userId)
     // --------------------add-dumy-balance----------------------------------------------------
 
     await Account.create({
       userId,
       balance: 1 + Math.random() * 10000
     })
-  } catch (err) {
-    console.log("err in signup endpoint--", err)
-  }
+  
   //------------------------------------------------------------------------------
-
+   
   const token = jwt.sign({ userId }, JWT_SECRET)
   res.status(200).json({
     message: "user created successfully..!",
@@ -69,7 +67,7 @@ router.post("/Signin", async (req, res) => {
   if (isUserExist) {
     const userId = isUserExist._id
     const token = jwt.sign({ userId }, JWT_SECRET)
-    res.json({ token: token })
+    res.json({ token: token,isUserExist })
     return
   }
   res.status(411).json({ message: "Error while logging in" })

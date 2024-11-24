@@ -5,6 +5,7 @@ import Heading from "../components/Heading"
 import Input from "../components/Input"
 import Subheading from "../components/Subheading"
 import axios from 'axios'
+import { useNavigate } from "react-router-dom"
 
 
 function SignUp(){
@@ -12,6 +13,7 @@ function SignUp(){
     const [lastname,setLastname]= useState("")
     const [username,setUsername]= useState("")
     const [password,setPassword]= useState("")
+    const navigate =useNavigate()
     
   return<>
   <div className='bg-slate-300 h-screen  flex justify-center items-center'>
@@ -40,10 +42,11 @@ function SignUp(){
             password
         })
         console.log("response--",response)
-        if(response.data.token){
+        if(response.status == 200){
             localStorage.setItem('token',response.data.token)
-            
+            navigate("/dashboard",{state:response.data.isUserExist})
         }
+       else alert("wrong credentials")
     }}/>
     <BottomWarning label={"Already have an account?"} buttonText={"Signin"} to={"/signin"}/>
     </div>

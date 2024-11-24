@@ -1,7 +1,10 @@
+import { useNavigate } from "react-router-dom"
+import Button from "./Button"
 
 
-function AppBar(){
-
+function AppBar({user}){
+          const navigate = useNavigate()
+          console.log("Appbar--user",user)
     return<>
     <div>
 
@@ -12,13 +15,18 @@ function AppBar(){
 
             <div className="flex gap-2 h-full items-center ">
                 <div>
-                   Hello
+                   Hello,{user?.firstname}
                 </div>
                 <div className="bg-slate-300 h-12 w-12 rounded-full flex justify-center items-center ">
                     <div>
-                        U
+                       {user?.username[0].toUpperCase()}
                     </div>
                 </div>
+                <div><Button onClick={()=>{
+                    localStorage.clear()
+                    navigate("/signin")
+
+                }} label={"logout"} /></div>
             </div>
         </nav>
 

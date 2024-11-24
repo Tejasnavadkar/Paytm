@@ -2,7 +2,7 @@ import axios from "axios"
 import Button from "../components/Button"
 import Heading from "../components/Heading"
 import Input from "../components/Input"
-import { useSearchParams } from "react-router-dom"
+import { useSearchParams,useNavigate } from "react-router-dom"
 import { useState } from "react"
 
 
@@ -10,6 +10,7 @@ function Send(){
 
    const [searchParams] = useSearchParams()
    const [amount,setAmount]= useState(0)
+   const navigate = useNavigate()
 
   const userId = searchParams.get("id")
   const username = searchParams.get("username")
@@ -45,8 +46,12 @@ function Send(){
                             authorization:"Bearer " + localStorage.getItem("token")
                         }
                     })
-
                     console.log("response---",response.data.message )
+                    if(response.status == 200){
+                        alert("Transaction Done..!")
+                        navigate("/dashboard")
+                        
+                    }
                     }} class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-white focus:outline-none bg-green-500 rounded-lg border border-gray-200 focus:z-10 focus:ring-4 focus:ring-gray-100 ">
                        Initiate Transfer
                     </button>
