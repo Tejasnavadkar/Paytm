@@ -6,6 +6,8 @@ import Input from "../components/Input"
 import Subheading from "../components/Subheading"
 import axios from 'axios'
 import { useNavigate } from "react-router-dom"
+import { userAtom } from "../store.js/atom"
+import { useSetRecoilState } from "recoil"
 
 
 function SignUp(){
@@ -14,6 +16,7 @@ function SignUp(){
     const [username,setUsername]= useState("")
     const [password,setPassword]= useState("")
     const navigate =useNavigate()
+   const setUserAtom = useSetRecoilState(userAtom)
     
   return<>
   <div className='bg-slate-300 h-screen  flex justify-center items-center'>
@@ -44,7 +47,10 @@ function SignUp(){
         console.log("response--",response)
         if(response.status == 200){
             localStorage.setItem('token',response.data.token)
-            navigate("/dashboard",{state:response.data.isUserExist})
+            // localStorage.setItem('username',response.data.firstname)
+            localStorage.setItem('currentUser',JSON.stringify(response.data.isUserExist))
+            setUserAtom(response.data.isUserExist.firstname)
+            navigate("/dashboard")
         }
        else alert("wrong credentials")
     }}/>

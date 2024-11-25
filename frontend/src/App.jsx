@@ -4,6 +4,7 @@ import SignIn from './pages/SignIn'
 import Dashboard from './pages/Dashboard'
 import Send from './pages/Send'
 import PrivateRout from './components/PrivateRout'
+import TransactionStatus from './components/TransactionStatus'
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Route path='/' element={<PrivateRout />}>
         <Route path='/dashboard' element={<Dashboard/>} />
         <Route path='/send' element={<Send/>} />
+        <Route path='/transaction' element={<TransactionStatus/> } />  
         </Route>
 
         <Route path='/signup' element={<SignUp/>}/>

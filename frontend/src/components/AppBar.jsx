@@ -1,10 +1,31 @@
 import { useNavigate } from "react-router-dom"
 import Button from "./Button"
+import { useRecoilValue } from "recoil"
+import { userAtom } from "../store.js/atom"
+import { useEffect, useState,memo } from "react"
 
 
-function AppBar({user}){
+
+function AppBar(){
           const navigate = useNavigate()
-          console.log("Appbar--user",user)
+        //   console.log("Appbar--user",user)
+        //  const username = useRecoilValue(userAtom)
+        //  console.log("userAtom--",username)
+        const [user,setUser] = useState(null)
+
+         useEffect(()=>{
+           const user = JSON.parse(localStorage.getItem('currentUser'))
+           if(user){
+            setUser(user)
+           }
+           
+                // setUser(JSON.parse(localStorage.getItem('currentUser')))
+                // console.log("current-userobj--",localStorage.getItem('currentUser'))
+         },[])
+
+         console.log("logo-------------------------------",user)
+
+         if(!user) return <div>Loading...</div>
     return<>
     <div>
 
@@ -15,11 +36,12 @@ function AppBar({user}){
 
             <div className="flex gap-2 h-full items-center ">
                 <div>
-                   Hello,{user?.firstname}
+                   Hello,{user.firstname.charAt(0).toUpperCase() + user.firstname.slice(1) || "Guest"}
                 </div>
                 <div className="bg-slate-300 h-12 w-12 rounded-full flex justify-center items-center ">
                     <div>
-                       {user?.username[0].toUpperCase()}
+                       {/* {user && user.length > 0 ? user.firstname[0].toUpperCase() : "U"} */}
+                       {user ? user.firstname[0].toUpperCase() : "U"}
                     </div>
                 </div>
                 <div><Button onClick={()=>{
@@ -34,4 +56,4 @@ function AppBar({user}){
     </>
 }
 
-export default AppBar
+export default memo(AppBar)

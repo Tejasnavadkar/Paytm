@@ -2,11 +2,13 @@ import axios from "axios";
 import Button from "./Button"
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { memo } from "react";
 
 
 function Users() {
     const [users, setUsers] = useState([]);
     const [filter,setFilter] = useState("")
+    const [currentUser,setUser] = useState("")
 
    
 
@@ -30,6 +32,7 @@ function Users() {
         const timeId = setTimeout(()=>{
             FetchData()
         },2000)
+        setUser(JSON.parse(localStorage.getItem('currentUser')))
 
         return () => clearTimeout(timeId)
         
@@ -42,16 +45,17 @@ function Users() {
                 <input type="text" onChange={(e)=> setFilter(e.target.value)} placeholder="Search users..." className="w-full px-2 py-1 border rounded border-slate-200"></input>
             </div>
             <div>
-                {users.map((user)=>{
+                {/* {users.map((user)=>{
                     return <User user={user}/>
-                })}
+                })} */}
+                {users.filter((user)=>user._id !== currentUser._id).map((user)=> (<User key={user._id} user={user} />)) }
             </div>
         </div>
     </>
 }
 
 
-export default Users
+export default memo(Users)
 
 
 function User({user}) {

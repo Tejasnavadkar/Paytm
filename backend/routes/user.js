@@ -44,7 +44,8 @@ router.post("/Signup", async (req, res) => {
   const token = jwt.sign({ userId }, JWT_SECRET)
   res.status(200).json({
     message: "user created successfully..!",
-    token: token
+    token: token,
+    isUserExist:newUser
   })
 
 
@@ -67,8 +68,8 @@ router.post("/Signin", async (req, res) => {
   if (isUserExist) {
     const userId = isUserExist._id
     const token = jwt.sign({ userId }, JWT_SECRET)
-    res.json({ token: token,isUserExist })
-    return
+    return res.json({ token: token,isUserExist })
+    
   }
   res.status(411).json({ message: "Error while logging in" })
 

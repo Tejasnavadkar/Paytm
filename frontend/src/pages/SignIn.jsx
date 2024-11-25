@@ -6,12 +6,15 @@ import Input from "../components/Input"
 import Subheading from "../components/Subheading"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
+import { useSetRecoilState } from "recoil"
+import { userAtom } from "../store.js/atom"
 
 function SignIn(){
 
   const [email,setEmail] = useState("")
   const [password,setPassword] = useState("")
   const navigate = useNavigate()
+  const setUserAtom = useSetRecoilState(userAtom)
    
     return <>
     <div>
@@ -32,9 +35,13 @@ function SignIn(){
         password
        })
        if(response.status == 200){
-        console.log(response)
+        console.log("isuserExist-------",response.data.isUserExist)
         localStorage.setItem('token',response.data.token)
-            navigate("/dashboard",{state:response.data.isUserExist})
+        localStorage.setItem('currentUser',JSON.stringify(response.data.isUserExist))
+
+        setUserAtom(response.data.isUserExist.firstname)
+         
+            navigate("/dashboard")
        }
       else alert("wrong credentials")
 
