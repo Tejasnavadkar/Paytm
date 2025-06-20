@@ -1,9 +1,5 @@
-
-import Button from "../components/Button"
 import Heading from "../components/Heading"
-import Input from "../components/Input"
-import { useSearchParams,useNavigate, useLocation , Link} from "react-router-dom"
-import { useState } from "react"
+import { useLocation , Link} from "react-router-dom"
 
 function TransactionStatus(){
     const location = useLocation()
@@ -17,7 +13,7 @@ function TransactionStatus(){
             <div className="font-semibold text-center"> 
             {message ? <div>{message} ✅</div> : ""}
                 <div>
-                    <Link to={"/dashboard"}>Go To Home</Link>
+                    <Link className="underline text-blue-700" to={"/dashboard"}>Go To Home</Link>
                 </div>
             </div>
 

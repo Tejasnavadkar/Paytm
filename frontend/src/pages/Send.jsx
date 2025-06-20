@@ -4,6 +4,7 @@ import Heading from "../components/Heading";
 import Input from "../components/Input";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 function Send() {
   const [searchParams] = useSearchParams();
@@ -31,11 +32,11 @@ function Send() {
     );
     console.log("response---", response.data.message);
     if (response.status == 200) {
-      // alert("Transaction Done..!")
+      toast.success(`Funds transferred to ${username}!`)
       navigate("/transaction", { state: response.data.message });
     }
      } catch (error) {
-        alert(error.response.data.message)
+        toast.error(error.response.data.message)
      }
   };
 

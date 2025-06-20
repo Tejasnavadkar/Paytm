@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom"
 import { useSetRecoilState } from "recoil"
 import { userAtom } from "../store.js/atom"
 import {SigninSchema} from "../zodValidation"
+import { toast } from "react-toastify"
 
 function SignIn(){
 
@@ -39,13 +40,13 @@ function SignIn(){
         console.log("isuserExist-------",response.data.isUserExist)
         localStorage.setItem('token',response.data.token)
         localStorage.setItem('currentUser',JSON.stringify(response.data.isUserExist))
-
         setUserAtom(response.data.isUserExist.firstname)
+        toast.success('Logged in successfully..!')
         navigate("/dashboard")
        }
      } catch (error) {
        // console.log(error.response.data.message)
-       alert(error.response.data.message)
+       toast.error(error.response.data.message)
        throw new Error(error.message)
      }
 

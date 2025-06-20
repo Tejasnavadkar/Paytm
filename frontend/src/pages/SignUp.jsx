@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom"
 import { userAtom } from "../store.js/atom"
 import { useSetRecoilState } from "recoil"
 import {SignupSchema} from "../zodValidation"
+import { toast } from "react-toastify"
 
 function SignUp(){
     const [firstname,setFirstname]= useState("")
@@ -47,10 +48,11 @@ function SignUp(){
             // localStorage.setItem('username',response.data.firstname)
             localStorage.setItem('currentUser',JSON.stringify(response.data.isUserExist))
             setUserAtom(response.data.isUserExist.firstname)
+            toast.success("Account created successfully..!")
             navigate("/dashboard")
         }
        } catch (error) {
-        alert(error.response.data.message)
+        toast.error(error.response.data.message)
        }
       
     }
