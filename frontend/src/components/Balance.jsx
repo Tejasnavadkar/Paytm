@@ -7,7 +7,8 @@ const [balance,setBalance] =  useState("")
 
   const fetchBalance = async () =>{
     console.log("this is balance compo")
-  const response =  await axios.get("http://localhost:3000/api/v1/account/balance",{
+    try {
+      const response =  await axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/account/balance`,{
       headers:{
         authorization: "Bearer " + localStorage.getItem('token') , 
         // ContentType: 'application/json'
@@ -17,6 +18,9 @@ const [balance,setBalance] =  useState("")
       console.log("balance--",response)
       setBalance(response.data.balance)
     }
+    } catch (error) {
+      throw new error(`error while fetching balance: ${error.message}`)
+    }
   }
 
   useEffect(()=>{
@@ -24,8 +28,8 @@ const [balance,setBalance] =  useState("")
   },[])
     return <>
       <div className="flex justify-start gap-2 font-bold my-4 mx-14">
-        <div>Your Balance</div>
-        <div>Rs {parseFloat(balance).toFixed(2)}</div>
+        <div>Your Balance:</div>
+        <div>{!isNaN(balance) ? `Rs ${parseFloat(balance)?.toFixed(2)}` : (<div className="text-red-600" >unable to fetch balance</div>)}</div>
         </div>
     </>
 }

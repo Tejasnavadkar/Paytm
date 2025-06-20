@@ -61,17 +61,39 @@ router.post("/Signin", async (req, res) => {
     res.status(411).json({ message: "invalid credential" })
   }
 
-  const isUserExist = await User.findOne({
-    username: userData.username,
-    password: userData.password
+  try {
+    
+  // const isEmailExist = await User.findOne({
+  //   username: userData.username,
+  // })
+
+  // if(!isEmailExist){
+  //   return res.status(404).json({
+  //     message:'wrong credentials'
+  //   })
+  // }
+
+   const isUserExist = await User.findOne({
+    username:userData.username,
+    password: userData.password,
   })
-  if (isUserExist) {
+
+  if(!isUserExist){
+   return res.status(404).json({
+      message:'wrong credentials'
+    })
+  }
+
     const userId = isUserExist._id
     const token = jwt.sign({ userId }, JWT_SECRET)
     return res.json({ token: token,isUserExist })
-    
+
+  } catch (error) {
+    res.status(411).json({ message: error.message })
   }
-  res.status(411).json({ message: "Error while logging in" })
+  
+
+ 
 
 })
 
@@ -107,7 +129,7 @@ router.get("/bulk", async (req, res) => {
     }]
   })
 
-  res.json({
+  res.status(200).json({
     users: users.map((user) => ({  //if use () no need to return here we did not return password
       username: user.username,
       firstname: user.firstname,

@@ -1,6 +1,7 @@
 const mongoose = require("mongoose")
 // const { Schema } = mongoose;
-mongoose.connect("mongodb+srv://tejas12:p2u8qcBJ04TpAJKb@cluster0.3qgh0ao.mongodb.net/Paytm")
+
+mongoose.connect(process.env.DB_URL)
 
 //schema for users table
 
