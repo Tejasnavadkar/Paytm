@@ -37,7 +37,6 @@ function SignIn(){
      try {
        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/user/signin`,inputData)
        if(response.status === 200){
-        console.log("isuserExist-------",response.data.isUserExist)
         localStorage.setItem('token',response.data.token)
         localStorage.setItem('currentUser',JSON.stringify(response.data.isUserExist))
         setUserAtom(response.data.isUserExist.firstname)

@@ -6,7 +6,6 @@ function Balance(){
 const [balance,setBalance] =  useState("")
 
   const fetchBalance = async () =>{
-    console.log("this is balance compo")
     try {
       const response =  await axios.get(`${import.meta.env.VITE_BASE_URL}/api/v1/account/balance`,{
       headers:{
@@ -15,7 +14,6 @@ const [balance,setBalance] =  useState("")
       }
     })
     if(response.status == 200){
-      console.log("balance--",response)
       setBalance(response.data.balance)
     }
     } catch (error) {

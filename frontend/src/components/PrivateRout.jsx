@@ -3,34 +3,6 @@
 import { useEffect, useState } from "react"
 import { Navigate, Outlet } from "react-router-dom"
 
-
-// function PrivateRout({children,...rest}){
-//     const auth = { 'token': false }
-
-//     return <>
-    
-//     <Route {...rest}>
-//         {auth.token ? children : <redirect to ="/signin"/>}
-//     </Route>
-
-//     </>
-
-// }
-
-// export default PrivateRout
-
-// const useAuth =()=>{
-//    const [isAuthenticated,setisAuthenticated] = useState(false)
-//     useEffect(()=>{
-//      const token = localStorage.getItem('token')
-//      if(token){
-//         setisAuthenticated(true)
-//      }
-//     },[])
-
-//     return isAuthenticated
-// }
-
 function PrivateRout({children}){
 
 // const [isAuthenticated,setisAuthenticated] = useState("")

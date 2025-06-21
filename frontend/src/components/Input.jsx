@@ -14,7 +14,6 @@ function Input({ label, placeholder, onChange, type = "text" }) {
   return (
     <>
       <div className="">
-        {showPassword}
         <div className="font-medium text-left py-2">
           <label htmlFor="">{label}</label>
         </div>

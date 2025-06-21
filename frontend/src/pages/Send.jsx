@@ -11,8 +11,6 @@ function Send() {
 
   const userId = searchParams.get("id");
   const username = searchParams.get("username");
-  console.log("userId--", userId);
-  console.log("username", username);
 
   const InitiateTransfer = async () => {
      try {
@@ -28,7 +26,6 @@ function Send() {
         },
       }
     );
-    console.log("response---", response.data.message);
     if (response.status == 200) {
       toast.success(`Funds transferred to ${username}!`)
       navigate("/transaction", { state: response.data.message });

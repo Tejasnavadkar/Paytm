@@ -30,8 +30,6 @@ function SignUp(){
     }
 
     const parsed = SignupSchema.safeParse(inputData)
-     console.log('inputdata--',inputData)
-    console.log('parsed--',parsed)
 
     if(!parsed.success){
         // console.log(parsed.error.formErrors.fieldErrors)
@@ -41,7 +39,6 @@ function SignUp(){
      
        try {
         const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/v1/user/signup`,inputData)
-        console.log("response--",response)
 
         if(response.status == 200){
             localStorage.setItem('token',response.data.token)

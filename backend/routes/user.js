@@ -8,10 +8,7 @@ const { AuthMiddleware } = require("../middleware")
 
 router.post("/Signup", async (req, res) => {
   const userData = req.body
-  console.log("userdata--", userData)
   const parsed = SignupSchema.safeParse(userData)
-  //  console.log("/signup endpoint----------")
-  console.log("success--", parsed.success)
   if (!parsed.success) {
     return res.status(411).json({ message: "Email already taken/invalid input", errors: parsed.error.errors })
   }
@@ -31,7 +28,6 @@ router.post("/Signup", async (req, res) => {
       password: userData.password
     })
     const userId = newUser._id
-    console.log("userId--",userId)
     // --------------------add-dumy-balance----------------------------------------------------
 
     await Account.create({
@@ -98,25 +94,22 @@ router.post("/Signin", async (req, res) => {
 })
 
 router.put("/update", AuthMiddleware, async (req, res) => {
-  console.log("update-route-2------")
+
   const userData = req.body
   const parsed = updateBody.safeParse(userData)
   if (!parsed.success) {
     return res.status(411).json({ message: "Error while updating information", errors: parsed.error.errors })
   }
   try {
-    console.log("update-route-2------", userData)
     await User.updateOne({ _id: req.userId }, userData)
     res.json({ message: "updated successfully" })
   } catch (err) {
-    console.log("router.put()", err)
     res.status(500).json({ message: "something went wrong" })
   }
 })
 
 router.get("/bulk", async (req, res) => {
   const filter = req.query.filter || "";  // if params abscent return all users
-  console.log("filter of bulk", filter)
   const users = await User.find({  // here we can get users by searching there name 
     $or: [{
       firstname: {
