@@ -94,7 +94,7 @@ function SignUp(){
 
     <Button label={"SignUp"} onClick={handlSubmit}/>
 
-    <BottomWarning label={"Already have an account?"} buttonText={"Signin"} to={"/signin"}/>
+    <BottomWarning label={"Already have an account?"} buttonText={"Signin"} to={"/"}/>
 
     </div>
   </div>

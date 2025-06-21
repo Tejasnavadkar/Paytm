@@ -1,50 +1,18 @@
-// import { Route,redirect } from "react-router-dom"
-
-import { useEffect, useState } from "react"
-import { Navigate, Outlet } from "react-router-dom"
+import { Navigate } from "react-router-dom"
 
 function PrivateRout({children}){
 
-// const [isAuthenticated,setisAuthenticated] = useState("")
+     const token = localStorage.getItem('token')
 
-// useEffect(()=>{
-//  const token = localStorage.getItem('token')
-//  if(token){
-//     setisAuthenticated(token)
-//  }
-//  console.log("token in PrivateRout--",isAuthenticated)
-// },[])
-// // console.log("token in PrivateRout outside effect--",token)
-//    if(!isAuthenticated){
-//       console.log("inside isAuthenticated--",isAuthenticated)
-//     return <Navigate to="/signin" />
-//    }
+    if (!token) { // unauthenticated navigate to login
+        return <Navigate to={'/'} />
+    }
 
-//     return <Outlet/>
-
-const [isAuthenticated, setIsAuthenticated] = useState(null); // Start with null to signify loading state
-
-useEffect(() => {
-  const token = localStorage.getItem('token');
-  if (token) {
-    setIsAuthenticated(true);
-  } else {
-    setIsAuthenticated(false);
-  }
-}, []);
-
-// While the state is loading, return nothing or a loader
-if (isAuthenticated === null) {
-  return <div>Loading...</div>; // Or return null to indicate no content during loading
-}
-
-// If not authenticated, redirect to sign-in
-if (!isAuthenticated) {
-  return <Navigate to="/signin" />;
-}
-
-// Otherwise, render the children or an outlet for nested routes
-return <Outlet />;
+    return (
+        <div>
+            {children}
+        </div>
+    )
 }
 
 export default PrivateRout

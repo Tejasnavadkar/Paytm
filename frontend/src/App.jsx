@@ -13,14 +13,16 @@ function App() {
     <div>
        <BrowserRouter future={{v7_startTransition:true,v7_relativeSplatPath:true}}>
        <Routes>
-        <Route path='/' element={<PrivateRout />}>
-        <Route path='/dashboard' element={<Dashboard/>} />
-        <Route path='/send' element={<Send/>} />
-        <Route path='/transaction' element={<TransactionStatus/> } />  
-        </Route>
+        {/* <Route path='/' element={<PrivateRout />}> */}
+        <Route path='/dashboard' element={<PrivateRout>
+          <Dashboard/>
+          </PrivateRout>} />
+        <Route path='/send' element={<PrivateRout><Send/></PrivateRout>} />
+        <Route path='/transaction' element={<PrivateRout><TransactionStatus/></PrivateRout> } />  
+        {/* </Route> */}
 
         <Route path='/signup' element={<SignUp/>}/>
-        <Route path='/signin' element={<SignIn/>} />
+        <Route path='/' element={<SignIn/>} />
         
        </Routes>
        </BrowserRouter>

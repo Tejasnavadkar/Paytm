@@ -39,7 +39,7 @@ function AppBar(){
                 </div>
                 <div><Button onClick={()=>{
                     localStorage.clear()
-                    navigate("/signin")
+                    navigate("/")
 
                 }} label={"logout"} /></div>
             </div>
