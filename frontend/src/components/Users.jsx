@@ -57,7 +57,7 @@ console.log('users-',users)
                 <input type="text" onChange={(e)=> setFilter(e.target.value)} placeholder="Search users..." className="w-full px-2 py-1 border rounded border-slate-200"></input>
             </div>
             <div>
-                {users.filter((user)=>user._id !== currentUser._id).map((user)=> (<User key={user._id} user={user} />)) }
+                { users.length > 0 ? (users.filter((user)=>user._id !== currentUser._id).map((user)=> (<User key={user._id} user={user} />))) : (<div className="font-bold text-2xl text-center mt-5" >No users have registered yet..!</div>) }
             </div>
         </div>
     </>
