@@ -1,7 +1,5 @@
 import axios from "axios";
-import Button from "../components/Button";
 import Heading from "../components/Heading";
-import Input from "../components/Input";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "react-toastify";
